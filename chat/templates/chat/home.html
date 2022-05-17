@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Главная страница</title>
+    <style>
+     body {
+      color: pink;
+      text-align: center;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>Hello</h1>
+
+    <p> Welcome to the Our site</p>
+    <div>
+      <ul>
+      {% if request.user.is_authenticated %}
+      <li class="last"> {{user.username}} | <a href="{% url 'logout' %}">Exit</a></li>
+      {% else %}
+      <li><a href="{% url 'signup' %}">Sign Up</a></li>
+      <li><a href="{% url 'login' %}">Login</a></li>
+      {% endif %}
+        </ul>
+    </div>
+  </body>
+</html>

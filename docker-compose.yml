@@ -1,0 +1,44 @@
+version: '3.10'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_HOST=localhost
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=docker
+    ports:
+      - 5432:5432
+
+  web:
+    build: .
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - celery
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+
+  celery:
+    restart: always
+    build: .
+    volumes:
+      - .:/code
+    command: celery -A support worker -l INFO
+    depends_on:
+      - redis
+
+volumes:
+  postgres_data:
