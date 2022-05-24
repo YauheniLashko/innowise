@@ -38,6 +38,8 @@ services:
   celery:
     build: .
     command: celery -A support worker -l info
+    env_file:
+      - ./.env.dev
     depends_on:
       - web
       - redis

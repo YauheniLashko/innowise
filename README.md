@@ -1,29 +1,31 @@
-# innowise test
-
-## Instruction 
+# Instruction 
 
 
 | Key | Value                       |
 | ------- |-----------------------------|
 | SECRET_KEY | Secret key for Django       |
-| POSTGRES_NAME | Name of your database       |
-| POSTGRES_USER | Username of database user   |
-| POSTGRES_PASSWORD | Password from database      |
+| DEBUG | 1(True) or 0(False)         |
+| SQL_ENGINE | The postgresql module       |
+| SQL_DATABASE | Name of your database       |
+| SQL_USER | Username of database user   |
+| SQL_PASSWORD | Password from database      |
+| SQL_HOST | Host DB in docker-compose   |
+| SQL_PORT | Usually 5432                |
 | EMAIL_HOST_USER| Your email adress           |
 | EMAIL_HOST_PASSWORD| Your email account password |
 
-Commands:
+## Commands:
 
 ```
-docker-compose build
-```
-
-```
-docker-compose exec web python manage.py makemigrations
+docker-compose up -d --build
 ```
 
 ```
-docker-compose exec web pythoon manage.py migrate
+docker-compose exec web python manage.py migrate
+```
+
+```
+docker-compose exec web python manage.py createsuperuser
 ```
 To stop container:
 

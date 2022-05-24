@@ -13,8 +13,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-import secr
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 
@@ -42,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chat.apps.ChatConfig',
     'rest_framework',
-    'drf_multiple_model',
 ]
 
 MIDDLEWARE = [
@@ -75,15 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'support.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     "default": {
         "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
@@ -183,11 +171,10 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = secr.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = secr.EMAIL_HOST_PASSWORD
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True

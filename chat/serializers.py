@@ -1,7 +1,4 @@
 from rest_framework import serializers
-
-import secr
-
 from .models import Message, Ticket
 from .tasks import status_update_notification
 
@@ -26,7 +23,7 @@ class TicketUpdateStatusSerializer(serializers.ModelSerializer):
             instance.status = changed_status
             instance.save()
             status_update_notification.delay(instance.title,
-                                             secr.email,
+                                             instance.user.email,
                                              changed_status)
         return instance
 
