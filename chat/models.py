@@ -3,10 +3,16 @@ from django.db import models
 
 
 class Ticket(models.Model):
-    set_status = [('In process', 'In process'), ("Frozen", "Frozen"), ('Done', "Done")]
+
+    class SetStatus(models.TextChoices):
+        IN_PROCESS = "In process"
+        FROZEN = 'Frozen'
+        DONE = "Done"
+
     title = models.CharField(max_length=100, verbose_name='Заголовок')
     description = models.TextField(max_length=500, verbose_name="Описание")
-    status = models.CharField(max_length=10, choices=set_status, default='In process', verbose_name="Состояние")
+    status = models.CharField(max_length=10, choices=SetStatus.choices,
+                              default=SetStatus.IN_PROCESS, verbose_name="Состояние")
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Отправитель')

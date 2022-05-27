@@ -14,17 +14,14 @@ services:
     command: postgres
     volumes:
       - ./postgres:/code/postgres
-    environment:
-      - SQL_USER=postgres
-      - SQL_PASSWORD=postgres
-      - SQL_DATABASE=postgres
+    env_file:
+      - ./.env.dev
     ports:
       - "5431:5432"
 
 
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
@@ -41,7 +38,6 @@ services:
     env_file:
       - ./.env.dev
     depends_on:
-      - web
       - redis
 
 volumes:
